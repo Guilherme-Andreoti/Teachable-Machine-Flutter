@@ -1,2 +1,4 @@
-0 Dogs
-1 Cats
+0 Homem
+1 Mulher
+2 Menina
+3 Menino
