@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'TFLite (Cat or Dog)',
+      title: 'Person Recognizer',
       theme: _buildTheme(),
       home: HomePage(),
     );
@@ -21,10 +21,10 @@ class MyApp extends StatelessWidget {
 
   _buildTheme() {
     return ThemeData(
-      brightness: Brightness.dark,
+      brightness: Brightness.light,
       primaryColor: Color(0xFF212121),
-      accentColor: Colors.deepOrange,
-      primarySwatch: Colors.deepOrange,
+      accentColor: Colors.deepPurple,
+      primarySwatch: Colors.deepPurple,
     );
   }
 }

@@ -33,6 +33,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         centerTitle: true,
         title: Text('Teachable Machine'),
+        backgroundColor: Color.fromRGBO(44, 6, 60, 1),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.photo_camera),
@@ -60,10 +61,11 @@ class _HomePageState extends State<HomePage> {
           padding: EdgeInsets.all(8.0),
           decoration: BoxDecoration(
             border: Border.all(
-              color: Colors.white,
+              color:Color.fromRGBO(44, 6, 60, 1),
               width: 1,
             ),
             borderRadius: BorderRadius.circular(12),
+            color: Color.fromRGBO(88, 12, 121, 1),
           ),
           child: Center(
             child: _image == null
@@ -79,17 +81,56 @@ class _HomePageState extends State<HomePage> {
   }
 
   _pickImage() async {
-    final image = await CameraHelper.pickImage();
-    if (image == null) {
-      return null;
-    }
+   BuildContext dialogContext;
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              title: Text("Onde buscar a imagem?"),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: <Widget>[
+                    GestureDetector(
+                      child: Text("Câmera"),
+                      onTap: () async {
+                        Navigator.pop(context, true);
+                        final image = await CameraHelper.pickImageFCamera();
+                            if (image == null) {
+                          return null;
+                        }
 
-    final outputs = await TFLiteHelper.classifyImage(image);
+                        final outputs = await TFLiteHelper.classifyImage(image);
 
-    setState(() {
-      _image = image;
-      _outputs = outputs;
-    });
+                        setState(() {
+                          _image = image;
+                          _outputs = outputs;
+                        });
+                      },
+                    ),
+                    Padding(padding: EdgeInsets.all(8.0)),
+                    GestureDetector(
+                      child: Text("Galeria"),
+                      onTap: () async {
+                        Navigator.pop(context, true);
+                        final image = await CameraHelper.pickImageFGallery();
+                            if (image == null) {
+                          return null;
+                        }
+
+                        final outputs = await TFLiteHelper.classifyImage(image);
+
+                        setState(() {
+                          _image = image;
+                          _outputs = outputs;
+                        });
+                      },
+                    )
+                  ],
+                ),
+              ));
+        });
+        
+        ;
   }
 
   _buildResult() {
@@ -99,9 +140,10 @@ class _HomePageState extends State<HomePage> {
         height: 150.0,
         decoration: BoxDecoration(
           border: Border.all(
-            color: Colors.white,
+            color:Color.fromRGBO(44, 6, 60, 1),
             width: 1,
           ),
+          color: Color.fromRGBO(88, 12, 121, 1),
           borderRadius: BorderRadius.circular(12),
         ),
         child: _buildResultList(),
